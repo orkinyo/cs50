@@ -13,7 +13,7 @@ int main(void) {
  int comp = -1;
 
  int fin = 0;
- if (number < 10000000000000)
+ if (number < 1000000000000)
  {
      printf("INVALID\n");
      fin = 1;
