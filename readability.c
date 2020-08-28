@@ -2,79 +2,41 @@
 #include <cs50.h>
 #include <string.h>
 #include <math.h>
-int not_letters(char*,int);
-int count_words(char*,int);
-int count_sent(char*,int);
-float aver(int, int);
+#include <ctype.h>
 void r(int);
+float aver(int,int);
 
 int main(void)
 {
     string s = get_string("Text: ");
+    int lc = 0, wc = 0, sc = 1;
     int len = strlen(s);
-    int fake = not_letters(s,len); //not letters
-    int letters = len - fake; //actual letters
-    int num_words = count_words(s,len);
-    int sent = count_sent(s,len);
-    double L = aver(letters, num_words);
-    double S = aver(sent,num_words);
-    double score = 0.0588 * L - 0.296 * S - 15.8;
-    //printf("%d letter(s)\n%d word(s)\n%d sentence(s)\n",letters,num_words,sent);
-    r((int) round(score));
-
-}
-
-int not_letters(char* s,int len)
-{
-    int num = 0;
-    for(int i =0 ; i<len ; i++)
-    {
-        if (!((s[i] >= 'A' && s[i] <= 'Z' ) || (s[i] >= 'a' && s[i] <= 'z')))
-        {
-            num++;
-        }
-    }
-    return num;
-}
-
-int count_words(char* s, int len)
-{
-    int count = 0;
-    bool in = 0;
-
+    bool state = 0;
     for(int i = 0 ; i < len ; i++)
     {
-        if(s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
+        if(s[i] == ' ')
         {
-            in = 0;
+            wc++;
         }
-        else if(!in)
-        {
-            in = 1;
-            count++;
-        }
-    }
-    return count;
-}
 
-int count_sent(char* s, int len)
-{
-    int c = 0;
-    bool in = 0;
-    for(int i = 0 ; i < len ; i ++)
-    {
-        if(s[i] == '.' || s[i] == '!' || s[i] == '?')
+        else if(!state &&(s[i] == '.' || s[i] == '?' || s[i] == '!'))
         {
-            in = 0;
+            state = 1;
+            sc++;
         }
-        else if(!in)
+
+        else if(isalpha(s[i]))
         {
-            in = 1;
-            c++;
+            lc++;
         }
     }
 
-    return c;
+    double L = aver(lc, wc);
+    double S = aver(sc,wc);
+    double score = 0.0588 * L - 0.296 * S - 15.8;
+    //printf("%d letter(s)\n%d word(s)\n%d sentence(s)\n",lc,wc,sc);
+    r((int) round(score));
+
 }
 
 float aver(int letters, int words)
