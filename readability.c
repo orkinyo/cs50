@@ -19,7 +19,7 @@ int main(void)
     double L = aver(letters, num_words);
     double S = aver(sent,num_words);
     double score = 0.0588 * L - 0.296 * S - 15.8;
-    printf("%d letter(s)\n%d word(s)\n%d sentence(s)\n",letters,num_words,sent);
+    //printf("%d letter(s)\n%d word(s)\n%d sentence(s)\n",letters,num_words,sent);
     r((int) round(score));
 
 }
