@@ -91,7 +91,7 @@ void r(int d)
     }
     else if(d<1)
     {
-        printf("Before Grade 1...");
+        printf("Before Grade 1\n");
     }
     else
     {
