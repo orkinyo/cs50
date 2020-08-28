@@ -23,6 +23,28 @@ int main(int argc,char** argv)
         return 1;
     }
 
+    for(int i = 0 ; i < strlen(argv[1]) ; i ++)
+    {
+        if(!isalpha(argv[1][i]))
+        {
+            return 1;
+        }
+    }
+
+    for(int i = 0 ; i < strlen(argv[1]) ; i++)
+    {
+        for (int j = 0; j < strlen(argv[1]) ; j++)
+        {
+            if(j!=i)
+            {
+                if(argv[1][i] == argv[1][j])
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+
 
     int index;
     string p = get_string("plaintext:  ");
