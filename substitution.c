@@ -13,19 +13,19 @@ int main(int argc,char** argv)
 {
     if(argc != 2)
     {
-        printf("Usage: ./substitution key\n");
+        printf("Usage: ./substitution key\n"); //no key
         return 1;
     }
 
     if(strlen(argv[1]) != 26)
     {
-        printf("Key must contain 26 characters.\n");
+        printf("Key must contain 26 characters.\n"); //key length not correct
         return 1;
     }
 
     for(int i = 0 ; i < strlen(argv[1]) ; i ++)
     {
-        if(!isalpha(argv[1][i]))
+        if(!isalpha(argv[1][i])) //key contains wrong characters
         {
             return 1;
         }
@@ -37,7 +37,7 @@ int main(int argc,char** argv)
         {
             if(j!=i)
             {
-                if(argv[1][i] == argv[1][j])
+                if(argv[1][i] == argv[1][j]) //duplicate
                 {
                     return 1;
                 }
