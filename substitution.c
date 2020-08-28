@@ -34,7 +34,7 @@ int main(int argc,char** argv)
         if(isupper(p[i]))
         {
             index = get_idx(u,p[i]);
-            cipher[i] = argv[1][index];
+            cipher[i] = toupper(argv[1][index]);
         }
 
         else if (islower(p[i]))
