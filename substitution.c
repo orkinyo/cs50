@@ -27,7 +27,8 @@ int main(int argc,char** argv)
     int index;
     string p = get_string("plaintext:  ");
     char cipher[strlen(p)];
-
+    //printf("%lu\n",strlen(p));
+    printf("ciphertext: ");
     for(int i = 0 ; i < strlen(p) ; i++)
     {
         if(isupper(p[i]))
@@ -45,9 +46,10 @@ int main(int argc,char** argv)
         {
             cipher[i] = p[i];
         }
+        printf("%c",cipher[i]);
     }
+    printf("\n");
 
-    printf("ciphertext: %s\n",cipher);
 }
 
 int get_idx(string s, char c)
