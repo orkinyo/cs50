@@ -9,26 +9,37 @@ float aver(int,int);
 int main(void)
 {
     string s = get_string("Text: ");
-    int lc = 0, wc = 0, sc = 1;
+    int lc = 0, wc = 0, sc = 0;
     int len = strlen(s);
-    bool state = 0;
     for(int i = 0 ; i < len ; i++)
     {
-        if(s[i] == ' ')
+        if (isalpha(s[i]))
+        {
+            lc++;
+        }
+        else if(s[i] == ' ' )
         {
             wc++;
         }
 
-        else if(!state &&(s[i] == '.' || s[i] == '?' || s[i] == '!'))
+        else if (i == len -1 )
         {
-            state = 1;
+            if(isalpha(s[i-1]))
+            {
+                wc++;
+
+            }
+        }
+
+        if((s[i-1] != '.' && s[i-1]!= '?' && s[i-1] != '"' && s[i-1] != '!' )&&(s[i] == '.' || s[i] == '?' || s[i] == '!' ))
+        {
+
             sc++;
         }
 
-        else if(isalpha(s[i]))
-        {
-            lc++;
-        }
+
+
+
     }
 
     double L = aver(lc, wc);
