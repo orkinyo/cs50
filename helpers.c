@@ -1,5 +1,11 @@
 #include "helpers.h"
+#include <math.h>
+#include <stdio.h>
+#include <cs50.h>
 
+int cap(int);
+bool ok(int,int,int,int);
+RGBTRIPLE getedge(int height,int width, RGBTRIPLE image[height][width], int i, int j);
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
@@ -178,5 +184,86 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE temp[height][width];
+    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
+    int gxr, gxg,gxb, gyr, gyg, gyb;
+    int tmpr,tmpg,tmpb;
+
+
+    for(int i = 0 ; i < height ; i++)
+    {
+        for(int j = 0 ; j < width ; j++)
+        {
+            temp[i][j] = getedge(height,width,image,i,j);
+        }
+    }
+
+    for (int i = 0 ; i < height ; i++)
+    {
+        for (int j = 0 ; j < width ; j++)
+        {
+            image[i][j].rgbtRed = temp[i][j].rgbtRed;
+            image[i][j].rgbtGreen = temp[i][j].rgbtGreen;
+            image[i][j].rgbtBlue = temp[i][j].rgbtBlue;
+        }
+    }
+
     return;
+}
+
+
+
+int cap(int u)
+{
+    if (u > 255)
+    {
+        u = 255;
+    }
+    return u;
+}
+
+RGBTRIPLE getedge(int height,int width, RGBTRIPLE image[height][width], int i, int j)
+{
+    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
+    int gxr, gxg,gxb, gyr, gyg, gyb;
+    gxr = gxg = gxb = gyr = gyg = gyb = 0;
+    for(int k = -1 ; k <= 1; k ++)
+    {
+        for (int a = -1 ; a <= -1 ; a ++)
+        {
+            if(i != 0 && j != 0)
+            {
+                if(ok(i+k,j+a,width,height))
+                {
+                    gxr += image[i+k][j+a].rgbtRed * Gx[k+1][a+1];
+                    gxg += image[i+k][j+a].rgbtGreen * Gx[k+1][a+1];
+                    gxb += image[i+k][j+a].rgbtBlue * Gx[k+1][a+1];
+
+                    gyr += image[i+k][j+a].rgbtRed * Gy[k+1][a+1];
+                    gyg += image[i+k][j+a].rgbtGreen * Gy[k+1][a+1];
+                    gyb += image[i+k][j+a].rgbtBlue * Gy[k+1][a+1];
+
+                }
+            }
+        }
+    }
+
+    RGBTRIPLE t;
+    t.rgbtRed = cap(round(sqrt(gxr*gxr + gyr*gyr)));
+    t.rgbtGreen = cap(round(sqrt(gxg*gxg + gyg*gyg)));
+    t.rgbtBlue = cap(round(sqrt(gxb*gxb + gyb*gyb)));
+    return t;
+
+
+}
+
+bool ok(int i,int j,int width,int height)
+{
+    if (i >= height || i < 0 || j <0 || j >=width)
+    {
+        return false;
+    }
+    return true;
 }
