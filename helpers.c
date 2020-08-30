@@ -1,5 +1,6 @@
 #include "helpers.h"
 #include <math.h>
+#include <stdio.h>
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
@@ -84,6 +85,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     int averr, averg, averb;
+    int fr,fg,fb;
     int count;
     for(int i = 0 ; i < height ; i++)
     {
@@ -95,18 +97,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
            averb = 0;
            count = 0;
 
-           averr += image[i][j].rgbtRed;
-           averg += image[i][j].rgbtGreen;
-           averb += image[i][j].rgbtBlue;
-           count += 1;
 
-           if( (j < width -1) && (i > 0)) //upper right
-           {
-               count += 1;
-               averr += image[i-1][j+1].rgbtRed;
-               averg += image[i-1][j+1].rgbtGreen;
-               averb += image[i-1][j+1].rgbtBlue;
-           }
 
            if(j > 0 && i > 0) // upper left
            {
@@ -116,6 +107,24 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                averb += image[i-1][j-1].rgbtBlue;
            }
 
+           if(i > 0) // upper
+           {
+                count += 1;
+                averr += image[i-1][j].rgbtRed;
+                averg += image[i-1][j].rgbtGreen;
+                averb += image[i-1][j].rgbtBlue;
+           }
+
+
+           if( (j < width -1) && (i > 0)) //upper right
+           {
+               count += 1;
+               averr += image[i-1][j+1].rgbtRed;
+               averg += image[i-1][j+1].rgbtGreen;
+               averb += image[i-1][j+1].rgbtBlue;
+           }
+
+
            if(j > 0) // left
            {
                count += 1;
@@ -124,13 +133,12 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                averb += image[i][j-1].rgbtBlue;
            }
 
-           if(i > 0) // upper
-           {
-                count += 1;
-                averr += image[i-1][j].rgbtRed;
-                averb += image[i-1][j].rgbtBlue;
-                averg += image[i-1][j].rgbtGreen;
-           }
+           //current
+           averr += image[i][j].rgbtRed;
+           averg += image[i][j].rgbtGreen;
+           averb += image[i][j].rgbtBlue;
+           count += 1;
+
 
            if(j < width - 1) // right
            {
@@ -140,15 +148,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                averb += image[i][j+1].rgbtBlue;
            }
 
-           if(j < width -1 && i < height -1) //down right
-           {
-               count += 1;
-               averr += image[i+1][j+1].rgbtRed;
-               averg += image[i+1][j+1].rgbtGreen;
-               averb += image[i+1][j+1].rgbtBlue;
-           }
 
-           if(j > 0 && i <height - 1) // down left
+           if(j > 0 && i < height - 1) // down left
            {
                count += 1;
                averr += image[i+1][j-1].rgbtRed;
@@ -164,32 +165,39 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                averb += image[i+1][j].rgbtBlue;
            }
 
+           if(j < width -1 && i < height -1) //down right
+           {
+               count += 1;
+               averr += image[i+1][j+1].rgbtRed;
+               averg += image[i+1][j+1].rgbtGreen;
+               averb += image[i+1][j+1].rgbtBlue;
+           }
 
 
 
+            fr = round(averr / (float) count);
+            fg = round(averg / (float) count);
+            fb = round(averb / (float) count);
 
-            averr = round(averr / (float) count);
-            averg = round(averg / (float) count);
-            averb = round(averb / (float) count);
-
-            if(averr > 255)
+            if(fr > 255)
             {
-                averr = 255;
+                fr = 255;
             }
 
-            if (averg > 255)
+            if (fg > 255)
             {
-                averg = 255;
+                fg = 255;
             }
 
-            if(averb > 255)
+            if(fb > 255)
             {
-                averb = 255;
+                fb = 255;
             }
 
-            image[i][j].rgbtRed = averr;
-            image[i][j].rgbtGreen = averg;
-            image[i][j].rgbtBlue = averb;
+
+            image[i][j].rgbtRed = fr;
+            image[i][j].rgbtGreen = fg;
+            image[i][j].rgbtBlue = fb;
 
         }
     }
