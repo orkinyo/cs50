@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
         printf("Usage ./recover file\n");
         return 1;
     }
-    char fname[name];
+    char fname[name];   //store filename
     FILE* raw = fopen(argv[1],"r");
 
     if(raw == NULL)
@@ -48,13 +48,13 @@ int main(int argc, char *argv[])
             {
                 flagfile = true;
             }
-             //store filename
+
             sprintf(fname,"%03d.jpg",counter);
             img = fopen(fname,"w");
             counter += 1;
             if(img == NULL)
             {
-                printf("opening out\n");
+                printf("error opening out\n");
                 return 1;
             }
 
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
         if(flagfile)
         {
-            fwrite(buffer,block,1,img);
+            fwrite(buffer,block,1,img); //write to img file
         }
 
     }
