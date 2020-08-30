@@ -83,98 +83,90 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
-    int averr,averg,averb;
+    int averr, averg, averb;
     int count;
     for(int i = 0 ; i < height ; i++)
     {
-        count = 0;
+
         for(int j = 0 ; j < width ; j++)
         {
-            if(j == width - 1)
-            {
-                if(i == height - 1)
-                {
-                    count = 4;
-                    averr = image[i][j].rgbtRed + image[i][j-1].rgbtRed + image[i-1][j].rgbtRed + image[i-1][j-1].rgbtRed;
-                    averg = image[i][j].rgbtGreen + image[i][j-1].rgbtGreen + image[i-1][j].rgbtGreen + image[i-1][j-1].rgbtGreen;
-                    averb = image[i][j].rgbtBlue + image[i][j-1].rgbtBlue + image[i-1][j].rgbtBlue + image[i-1][j-1].rgbtBlue;
-                }
-                else if (i == 0)
-                {
-                    count = 4;
-                    averr = image[i][j].rgbtRed + image[i][j-1].rgbtRed + image[i+1][j].rgbtRed + image[i+1][j-1].rgbtRed;
-                    averg = image[i][j].rgbtGreen + image[i][j-1].rgbtGreen + image[i+1][j].rgbtGreen + image[i+1][j-1].rgbtGreen;
-                    averb = image[i][j].rgbtBlue + image[i][j-1].rgbtBlue + image[i+1][j].rgbtBlue + image[i+1][j-1].rgbtBlue;
-                }
+           averr = 0; averg = 0; averb = 0; count = 0; //current
+           averr += image[i][j].rgbtRed;
+           averg += image[i][j].rgbtGreen;
+           averb += image[i][j].rgbtBlue;
+           count++;
 
-                else
-                {
-                    count = 6;
-                    averr = image[i][j].rgbtRed + image[i][j-1].rgbtRed + image[i+1][j].rgbtRed + image[i+1][j-1].rgbtRed + image[i-1][j].rgbtRed + image[i-1][j-1].rgbtRed;
-                    averg = image[i][j].rgbtGreen + image[i][j-1].rgbtGreen + image[i+1][j].rgbtGreen + image[i+1][j-1].rgbtGreen + image[i-1][j].rgbtGreen + image[i-1][j-1].rgbtGreen;
-                    averb = image[i][j].rgbtBlue + image[i][j-1].rgbtBlue + image[i+1][j].rgbtBlue + image[i+1][j-1].rgbtBlue + image[i-1][j].rgbtBlue + image[i-1][j-1].rgbtBlue;
+           if(j < width -1 && i > 0) //upper right
+           {
+               count++;
+               averr += image[i-1][j+1].rgbtRed;
+               averg += image[i-1][j+1].rgbtGreen;
+               averb += image[i-1][j+1].rgbtBlue;
+           }
 
-                }
-            }
+           if(j > 0 && i > 0) // upper left
+           {
+               count++;
+               averr += image[i-1][j-1].rgbtRed;
+               averg += image[i-1][j-1].rgbtGreen;
+               averb += image[i-1][j-1].rgbtBlue;
+           }
 
-            else if (j == 0)
-            {
-                if(i == height - 1)
-                {
-                    count = 4;
-                    averr = image[i][j].rgbtRed + image[i][j+1].rgbtRed + image[i-1][j].rgbtRed + image[i-1][j+1].rgbtRed;
-                    averg = image[i][j].rgbtGreen + image[i][j+1].rgbtGreen + image[i-1][j].rgbtGreen + image[i-1][j+1].rgbtGreen;
-                    averb = image[i][j].rgbtBlue + image[i][j+1].rgbtBlue + image[i-1][j].rgbtBlue + image[i-1][j+1].rgbtBlue;
-                }
+           if(j > 0) // left
+           {
+               count++;
+               averr += image[i][j-1].rgbtRed;
+               averg += image[i][j-1].rgbtGreen;
+               averb += image[i][j-1].rgbtBlue;
+           }
 
-                else if (i == 0)
-                {
-                    count = 4;
-                    averr = image[i][j].rgbtRed + image[i][j+1].rgbtRed + image[i+1][j].rgbtRed + image[i+1][j+1].rgbtRed;
-                    averg = image[i][j].rgbtGreen + image[i][j+1].rgbtGreen + image[i+1][j].rgbtGreen + image[i+1][j+1].rgbtGreen;
-                    averb = image[i][j].rgbtBlue + image[i][j+1].rgbtBlue + image[i+1][j].rgbtBlue + image[i+1][j+1].rgbtBlue;
-                }
+           if(i > 0) // upper
+           {
+               count++;
+                averr += image[i-1][j].rgbtRed;
+                averb += image[i-1][j].rgbtBlue;
+                averg += image[i-1][j].rgbtGreen;
+           }
 
-                else
-                {
-                    count = 6;
-                    averr = image[i][j].rgbtRed + image[i][j+1].rgbtRed + image[i+1][j].rgbtRed + image[i+1][j+1].rgbtRed + image[i-1][j].rgbtRed + image[i-1][j+1].rgbtRed;
-                    averg = image[i][j].rgbtGreen + image[i][j+1].rgbtGreen + image[i+1][j].rgbtGreen + image[i+1][j+1].rgbtGreen + image[i-1][j].rgbtGreen + image[i-1][j+1].rgbtGreen;
-                    averb = image[i][j].rgbtBlue + image[i][j+1].rgbtBlue + image[i+1][j].rgbtBlue + image[i+1][j+1].rgbtBlue + image[i-1][j].rgbtBlue + image[i-1][j+1].rgbtBlue;
-                }
-            }
+           if(j < width - 1) // right
+           {
+               count++;
+               averr += image[i][j+1].rgbtRed;
+               averg += image[i][j+1].rgbtGreen;
+               averb += image[i][j+1].rgbtBlue;
+           }
 
-            else if(i == 0)
-            {
-                count = 6;
-                averr = image[i][j].rgbtRed + image[i][j+1].rgbtRed + image[i+1][j].rgbtRed + image[i+1][j+1].rgbtRed + image[i][j-1].rgbtRed + image[i+1][j-1].rgbtRed;
-                averb = image[i][j].rgbtBlue + image[i][j+1].rgbtBlue + image[i+1][j].rgbtBlue + image[i+1][j+1].rgbtBlue + image[i][j-1].rgbtBlue + image[i+1][j-1].rgbtBlue;
-                averg = image[i][j].rgbtGreen + image[i][j+1].rgbtGreen + image[i+1][j].rgbtGreen + image[i+1][j+1].rgbtGreen + image[i][j-1].rgbtGreen + image[i+1][j-1].rgbtGreen;
-            }
+           if(j < width -1 && i < height -1) //down right
+           {
+               count++;
+               averr += image[i+1][j+1].rgbtRed;
+               averg += image[i+1][j+1].rgbtGreen;
+               averb += image[i+1][j+1].rgbtBlue;
+           }
 
-            else if(i == height - 1)
-            {
-                count = 6;
-                averr = image[i][j].rgbtRed + image[i][j+1].rgbtRed + image[i-1][j].rgbtRed + image[i-1][j+1].rgbtRed + image[i][j-1].rgbtRed + image[i-1][j-1].rgbtRed;
-                averg = image[i][j].rgbtGreen + image[i][j+1].rgbtGreen + image[i-1][j].rgbtGreen + image[i-1][j+1].rgbtGreen + image[i][j-1].rgbtGreen + image[i-1][j-1].rgbtGreen;
-                averb = image[i][j].rgbtBlue + image[i][j+1].rgbtBlue + image[i-1][j].rgbtBlue + image[i-1][j+1].rgbtBlue + image[i][j-1].rgbtBlue + image[i-1][j-1].rgbtBlue;
-            }
+           if(j > 0 && i <height - 1) // down left
+           {
+               count++;
+               averr += image[i+1][j-1].rgbtRed;
+               averg += image[i+1][j-1].rgbtGreen;
+               averb += image[i+1][j-1].rgbtBlue;
+           }
 
-            else
-            {
-                count = 9;
-                averr = image[i][j].rgbtRed + image[i][j+1].rgbtRed + image[i-1][j].rgbtRed + image[i-1][j+1].rgbtRed + image[i][j-1].rgbtRed + image[i-1][j-1].rgbtRed + image[i+1][j].rgbtRed + image[i+1][j+1].rgbtRed + image[i+1][j-1].rgbtRed;
-                averg= image[i][j].rgbtGreen + image[i][j+1].rgbtGreen + image[i-1][j].rgbtGreen + image[i-1][j+1].rgbtGreen + image[i][j-1].rgbtGreen + image[i-1][j-1].rgbtGreen + image[i+1][j].rgbtGreen + image[i+1][j+1].rgbtGreen + image[i+1][j-1].rgbtGreen;
-                averb = image[i][j].rgbtBlue + image[i][j+1].rgbtBlue + image[i-1][j].rgbtBlue + image[i-1][j+1].rgbtBlue + image[i][j-1].rgbtBlue + image[i-1][j-1].rgbtBlue + image[i+1][j].rgbtBlue + image[i+1][j+1].rgbtBlue + image[i+1][j-1].rgbtBlue;
-
-
-            }
+           if (i > height -1) //down
+           {
+               count++;
+               averr += image[i+1][j].rgbtRed;
+               averg += image[i+1][j].rgbtGreen;
+               averb += image[i+1][j].rgbtBlue;
+           }
 
 
 
-            averr = (int) round((float) averr / (float) count);
-            averb = (int) round((float) averg / (float) count);
-            averg = (int) round((float) averb / (float) count);
+
+
+            averr = averr / count;
+            averg = averg / count;
+            averb = averb / count;
 
             image[i][j].rgbtRed = averr;
             image[i][j].rgbtGreen = averg;
@@ -184,3 +176,4 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     }
     return;
 }
+check50 cs50/problems/2020/x/filter/less
