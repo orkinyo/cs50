@@ -90,15 +90,19 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
         for(int j = 0 ; j < width ; j++)
         {
-           averr = 0; averg = 0; averb = 0; count = 0; //current
+           averr = 0;
+           averg = 0;
+           averb = 0;
+           count = 0;
+
            averr += image[i][j].rgbtRed;
            averg += image[i][j].rgbtGreen;
            averb += image[i][j].rgbtBlue;
-           count++;
+           count += 1;
 
-           if(j < width -1 && i > 0) //upper right
+           if( (j < width -1) && (i > 0)) //upper right
            {
-               count++;
+               count += 1;
                averr += image[i-1][j+1].rgbtRed;
                averg += image[i-1][j+1].rgbtGreen;
                averb += image[i-1][j+1].rgbtBlue;
@@ -106,7 +110,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
            if(j > 0 && i > 0) // upper left
            {
-               count++;
+               count += 1;
                averr += image[i-1][j-1].rgbtRed;
                averg += image[i-1][j-1].rgbtGreen;
                averb += image[i-1][j-1].rgbtBlue;
@@ -114,7 +118,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
            if(j > 0) // left
            {
-               count++;
+               count += 1;
                averr += image[i][j-1].rgbtRed;
                averg += image[i][j-1].rgbtGreen;
                averb += image[i][j-1].rgbtBlue;
@@ -122,7 +126,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
            if(i > 0) // upper
            {
-               count++;
+                count += 1;
                 averr += image[i-1][j].rgbtRed;
                 averb += image[i-1][j].rgbtBlue;
                 averg += image[i-1][j].rgbtGreen;
@@ -130,7 +134,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
            if(j < width - 1) // right
            {
-               count++;
+               count += 1;
                averr += image[i][j+1].rgbtRed;
                averg += image[i][j+1].rgbtGreen;
                averb += image[i][j+1].rgbtBlue;
@@ -138,7 +142,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
            if(j < width -1 && i < height -1) //down right
            {
-               count++;
+               count += 1;
                averr += image[i+1][j+1].rgbtRed;
                averg += image[i+1][j+1].rgbtGreen;
                averb += image[i+1][j+1].rgbtBlue;
@@ -146,15 +150,15 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
            if(j > 0 && i <height - 1) // down left
            {
-               count++;
+               count += 1;
                averr += image[i+1][j-1].rgbtRed;
                averg += image[i+1][j-1].rgbtGreen;
                averb += image[i+1][j-1].rgbtBlue;
            }
 
-           if (i > height -1) //down
+           if (i < height -1) //down
            {
-               count++;
+               count += 1;
                averr += image[i+1][j].rgbtRed;
                averg += image[i+1][j].rgbtGreen;
                averb += image[i+1][j].rgbtBlue;
