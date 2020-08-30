@@ -233,7 +233,7 @@ RGBTRIPLE getedge(int height,int width, RGBTRIPLE image[height][width], int i, i
     {
         for (int a = -1 ; a <= 1 ; a ++)
         {
-            if(a != 0 && k != 0)
+            if(a!=0 || k!=0)
             {
                 if(ok(i+k,j+a,width,height))
                 {
