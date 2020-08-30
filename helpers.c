@@ -176,4 +176,3 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     }
     return;
 }
-check50 cs50/problems/2020/x/filter/less
