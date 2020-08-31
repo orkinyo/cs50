@@ -14,7 +14,6 @@ bool insert(uint32_t,char*);
 
 // Represents a node in a hash table
 uint64_t count = 0;
-submit50 cs50/problems/2020/x/challenges/speller
 typedef struct node
 {
     char word[LENGTH + 1];
@@ -129,6 +128,7 @@ bool load(const char *dictionary)
 
 
     }
+    fclose(f);
     return true;
 
 
@@ -145,24 +145,30 @@ bool unload(void)
 {
     for(int i = 0 ; i < N ; i++)
     {
-        node* temp = table[i];
-        node* tmp = temp;
-
-        while(tmp!=NULL)
+        if(table[i]!=NULL)
         {
-            tmp = tmp->next;
-            free(temp);
-            temp = tmp;
+            node* temp = table[i];
+            node* tmp = table[i];
+
+
+
+            while(tmp!=NULL)
+            {
+                tmp = tmp->next;
+                free(temp);
+                temp = tmp;
+            }
         }
+
     }
     return true;
 }
 
 bool insert(uint32_t idx, char* word)
 {
-    node* temp = table[idx];
 
-    node* tmp = malloc(sizeof(node));
+    node* tmp = (node*) calloc(sizeof(node),1);
+
     if(tmp == NULL)
     {
         return false;
@@ -171,7 +177,7 @@ bool insert(uint32_t idx, char* word)
     strcpy(tmp->word,word);
 
 
-    if (temp == NULL)
+    if (table[idx] == NULL)
     {
         table[idx] = tmp;
     }
