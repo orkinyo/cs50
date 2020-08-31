@@ -37,7 +37,6 @@ bool check(const char *word)
         copy[i] = tolower(word[i]);
     }
     copy[strlen(word)] = '\0';
-    strcpy(copy,word);
     uint32_t idx = hash(copy);
 
 
