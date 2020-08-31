@@ -1,6 +1,10 @@
 from cs50 import *
 from math import *
-change = get_float("Change owed: ")
+chagne = 0
+while True:
+    change = get_float("Change owed: ")
+    if change > 0.0:
+        break
 change = floor(change*100)
 count = 0
 while change > 0:
