@@ -1,7 +1,11 @@
 
 def prompt(s):
     while True:
-        s = int(input("Height: "))
+        s = input("Height: ")
+        try:
+            s = int(s)
+        except:
+            continue
         if s >= 1 and s <= 8:
             return s
 
