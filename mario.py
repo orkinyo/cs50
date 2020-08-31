@@ -12,7 +12,7 @@ def prompt(s):
 s = -1
 s = prompt(s)
 for i in range(s):
-    for k in range(s-i):
+    for k in range(s-i-1):
         print("",end=" ")
     for j in range(i+1):
         print("#",end='')
