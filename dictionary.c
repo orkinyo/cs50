@@ -36,7 +36,7 @@ bool check(const char *word)
     bool ret = false;
 
     node* temp = table[idx];
-    while(temp!=NULL)
+    while(temp != NULL)
     {
         if (strcasecmp(temp->word,word) == 0)
         {
