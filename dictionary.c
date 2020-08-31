@@ -167,7 +167,8 @@ bool unload(void)
 bool insert(uint32_t idx, char* word)
 {
 
-    node* tmp = malloc(sizeof(node));
+    node* tmp = (node*) calloc(sizeof(node),1);
+
     if(tmp == NULL)
     {
         return false;
