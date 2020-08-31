@@ -5,6 +5,7 @@
 #include <strings.h>
 #include "dictionary.h"
 #include <stdint.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 bool insert(uint32_t,char*);
@@ -31,6 +32,11 @@ node *table[N];
 bool check(const char *word)
 {
     char copy[46];
+    for( int i = 0 ; i < strlen(word) ; i++)
+    {
+        copy[i] = tolower(word[i]);
+    }
+    copy[strlen(word)] = '\0';
     strcpy(copy,word);
     uint32_t idx = hash(copy);
 
