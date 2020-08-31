@@ -30,7 +30,9 @@ node *table[N];
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
-    uint32_t idx = hash(word);
+    char copy[46];
+    strcpy(copy,word);
+    uint32_t idx = hash(copy);
     bool ret = false;
 
     node* temp = table[idx];
@@ -108,7 +110,9 @@ bool load(const char *dictionary)
 
     while(fscanf(f,"%s",line) != -1)
     {
-        idx = hash(line);
+        char copy[46];
+        strcpy(copy,line);
+        idx = hash(copy);
         if(!insert(idx,line))
         {
             return false;
@@ -134,8 +138,19 @@ unsigned int size(void)
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    // TODO
-    return false;
+    for(int i = 0 ; i < N ; i++)
+    {
+        node* temp = table[i];
+        node* tmp = temp;
+
+        while(tmp!=NULL)
+        {
+            tmp = tmp->next;
+            free(temp);
+            temp = tmp;
+        }
+    }
+    return true;
 }
 
 bool insert(uint32_t idx, char* word)
