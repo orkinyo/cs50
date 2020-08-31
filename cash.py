@@ -1,21 +1,16 @@
 from cs50 import *
-
+from math import *
 change = get_float("Change owed: ")
-s = [0.25,0.1,0.05,0.01]
+change = floor(change*100)
 count = 0
-
-while change >= 0 :
-
-    if change >= s[0] :
-        change -= s[0]
-
-    elif change >= s[1]:
-        change -= s[1]
-
-    elif change >= s[2]:
-        change -= s[2]
+while change > 0:
+    if change >= 25:
+        change -= 25
+    elif change >= 10:
+        change -= 10
+    elif change >= 5:
+        change -=  5
     else:
-        change -= s[3]
+        change -= 1
     count += 1
-
 print(f"{count}")
