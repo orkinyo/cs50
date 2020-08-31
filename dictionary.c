@@ -22,7 +22,7 @@ typedef struct node
 node;
 
 // Number of buckets in hash table
-const unsigned int N = 10000;
+const unsigned int N = 20000;
 
 // Hash table
 node *table[N];
@@ -33,18 +33,18 @@ bool check(const char *word)
     char copy[46];
     strcpy(copy,word);
     uint32_t idx = hash(copy);
-    bool ret = false;
+
 
     node* temp = table[idx];
     while(temp != NULL)
     {
         if (strcasecmp(temp->word,word) == 0)
         {
-            ret = true;
+            return true;
         }
         temp = temp->next;
     }
-    return ret;
+    return false;
 }
 
 // Hashes word to a number
