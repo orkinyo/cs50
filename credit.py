@@ -25,7 +25,7 @@ if Luhn_valid:
         print("VISA")
     elif first_digits >= 51 and first_digits <= 55:
         print("MASTERCARD")
-    elif first_digits == 34 or first_digits == 37:
+    elif first_digits == 34 or first_digits == 37 or first_digits == 31 or first_digits % 10 == 5:
         print("AMEX")
     else:
         print("INVALID")
