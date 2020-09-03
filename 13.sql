@@ -1,0 +1,1 @@
+select DISTINCT name from people where id IN (select person_id from stars where stars.movie_id IN(select movie_id from stars WHERE stars.person_id in (SELECT id from people where people.name = "Kevin Bacon" and birth = 1958))) and not name = "Kevin Bacon";
