@@ -1,0 +1,1 @@
+SELECT name FROM people WHERE id In (SELECT person_id FROM directors WHERE directors.movie_id IN(SELECT movie_id FROM ratings WHERE rating >= 9.0))
