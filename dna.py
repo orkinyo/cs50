@@ -22,9 +22,15 @@ for i in range(len(people)):
 
 for i in range(len(seq)):
     pattern = re.compile(f"(?:{seq[i]})+")
-    found.append(max([len(x) for x in re.findall(pattern, dna)])//len(seq[i]))
-
-
+    if pattern != []:
+        found.append(max([len(x) for x in re.findall(pattern, dna)])//len(seq[i]))
+    else:
+        found.append(0)
+found = False
 for i in people:
     if i[1:] == found:
         print(i[0])
+        found = True
+
+if not Found:
+    print("No match")
